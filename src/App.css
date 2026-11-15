@@ -1,0 +1,382 @@
+:root {
+  --sky-top: #7eb8d4;
+  --sky-mid: #b5daf0;
+  --meadow: #6a9b5a;
+  --sun: #f4d35e;
+  --ink: #2c3a2e;
+  --cream: #f7f2e8;
+  --panel: rgba(255, 250, 240, 0.82);
+  --accent: #e07a3d;
+  --accent-deep: #c45c2a;
+  --ok: #3d8b5a;
+  --font-brand: 'Baloo 2', 'Comic Sans MS', cursive;
+  --font-ui: 'Nunito', 'Trebuchet MS', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-ui);
+  color: var(--ink);
+  background: var(--sky-mid);
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  user-select: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ——— Start gate: one composition, brand-first ——— */
+
+.start-gate {
+  position: relative;
+  min-height: 100%;
+  height: 100dvh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.start-gate__atmosphere {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 75% 18%, rgba(255, 220, 120, 0.55), transparent 60%),
+    radial-gradient(ellipse 80% 50% at 20% 80%, rgba(106, 155, 90, 0.45), transparent 55%),
+    linear-gradient(180deg, #8ec4de 0%, #c8e4f0 48%, #d5e8a8 100%);
+  animation: sky-breathe 10s ease-in-out infinite alternate;
+}
+
+.start-gate__atmosphere::after {
+  content: '';
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: 0;
+  height: 38%;
+  background: linear-gradient(180deg, transparent, rgba(90, 140, 70, 0.35));
+  clip-path: ellipse(70% 100% at 50% 100%);
+}
+
+.start-gate__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  max-width: 22rem;
+}
+
+.brand-mark {
+  margin: 0;
+  font-family: var(--font-brand);
+  font-weight: 800;
+  font-size: clamp(3.4rem, 16vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.35);
+  animation: brand-in 0.7s ease-out both;
+}
+
+.brand-tagline {
+  margin: 0.65rem 0 1.75rem;
+  font-size: clamp(1rem, 3.6vw, 1.2rem);
+  font-weight: 600;
+  color: rgba(44, 58, 46, 0.78);
+  animation: brand-in 0.7s ease-out 0.12s both;
+}
+
+.start-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 10rem;
+  min-height: 3.4rem;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 0 var(--accent-deep);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  animation: brand-in 0.7s ease-out 0.22s both, pulse-soft 2.4s ease-in-out 1s infinite;
+}
+
+.start-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 var(--accent-deep);
+}
+
+.start-hint {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(44, 58, 46, 0.55);
+  animation: brand-in 0.7s ease-out 0.32s both;
+}
+
+/* ——— App shell ——— */
+
+.app-shell {
+  position: relative;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #8ec4de, #c8e4f0);
+}
+
+.top-bar {
+  flex: 0 0 auto;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.7rem 0.85rem 0.4rem;
+  padding-top: max(0.7rem, env(safe-area-inset-top));
+}
+
+.mode-switch {
+  display: inline-flex;
+  align-self: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: var(--panel);
+  backdrop-filter: blur(8px);
+}
+
+.mode-switch button {
+  min-height: 2.5rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: rgba(44, 58, 46, 0.65);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.mode-switch button.is-on {
+  background: var(--ink);
+  color: #fff;
+}
+
+.status-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-height: 1.6rem;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.status-prompt {
+  color: var(--ink);
+}
+
+.status-feedback {
+  color: var(--ok);
+}
+
+.status-idle {
+  color: rgba(44, 58, 46, 0.5);
+  font-weight: 600;
+}
+
+.replay-btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 250, 240, 0.9);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent-deep);
+}
+
+.scene-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse 50% 35% at 78% 12%, rgba(255, 220, 120, 0.35), transparent 60%),
+    linear-gradient(180deg, #9fd4ea 0%, #c5e6f5 45%, #8fc46a 100%);
+}
+
+.scene-brand {
+  position: absolute;
+  top: 0.35rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  margin: 0;
+  font-family: var(--font-brand);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  letter-spacing: -0.02em;
+  color: rgba(44, 58, 46, 0.28);
+  pointer-events: none;
+}
+
+.farm-scene {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.animal {
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.2s ease;
+  outline: none;
+}
+
+.animal .hit {
+  fill: transparent;
+}
+
+.animal:focus-visible .hit {
+  fill: rgba(255, 255, 255, 0.18);
+  stroke: rgba(44, 58, 46, 0.35);
+  stroke-width: 3;
+}
+
+.animal.is-active {
+  animation: animal-bounce 0.45s ease;
+}
+
+.animal.is-highlight {
+  filter: drop-shadow(0 0 8px rgba(255, 230, 120, 0.8));
+}
+
+.cloud-a {
+  animation: drift 28s linear infinite;
+}
+
+.cloud-b {
+  animation: drift 40s linear infinite reverse;
+}
+
+.sun {
+  animation: sun-pulse 6s ease-in-out infinite alternate;
+}
+
+.audio-note {
+  position: absolute;
+  left: 0.75rem;
+  bottom: max(0.5rem, env(safe-area-inset-bottom));
+  z-index: 2;
+  margin: 0;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 250, 240, 0.55);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgba(44, 58, 46, 0.45);
+  pointer-events: none;
+}
+
+/* ——— Motion ——— */
+
+@keyframes brand-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes sky-breathe {
+  from {
+    filter: saturate(1);
+  }
+  to {
+    filter: saturate(1.08) brightness(1.03);
+  }
+}
+
+@keyframes animal-bounce {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  35% {
+    transform: scale(1.08) translateY(-10px);
+  }
+  70% {
+    transform: scale(0.98) translateY(2px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(40px);
+  }
+}
+
+@keyframes sun-pulse {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 720px) {
+  .top-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 1.25rem;
+  }
+
+  .mode-switch {
+    align-self: auto;
+  }
+
+  .status-line {
+    justify-content: flex-end;
+    min-width: 14rem;
+  }
+}
